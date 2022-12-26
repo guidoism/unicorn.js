@@ -29,11 +29,26 @@ paneRegisters.update();
 // Initialization
 //e.reg_write_i32(uc.X86_REG_ECX, 30);
 paneAssembler.setAddr(0x10000);
+/*
 paneAssembler.appendAsm(`
     mov   eax, 0
     mov   edx, 1
     mov   ecx, 30
     xadd  eax, edx
     loop  -3
-`);
+    `);
+*/
+paneAssembler.appendAsm(`
+        ; Execution starts here.
+start:
+        cld                     ; clear direction flag
+
+        ; Set up segment registers to point to the same segment as CS.
+        push cs
+        push cs
+        push cs
+        pop ds
+        pop es
+        pop ss
+    `);
 paneMemory.update();
